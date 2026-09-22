@@ -1,0 +1,49 @@
+{
+  "developer": {
+    "avatar": "🌱",
+    "name": "点木成材",
+    "slogan": "独立开发者 · 用 App 记录成长，让自律变简单",
+    "email": "bestheqin@gmail.com"
+  },
+  "sections": [
+    {
+      "title": "iOS 应用 · iOS Apps",
+      "platform": "ios",
+      "apps": [
+        {
+          "name": "BeBetter 自律打卡",
+          "image": "icons/bebetter.png",
+          "icon": "⏱️",
+          "gradient": "linear-gradient(135deg, #4f8ef7 0%, #8e54e9 100%)",
+          "desc": "轻量自律打卡工具：设定目标与期限，每日提醒打卡，用连续的坚持看见更好的自己。",
+          "url": "https://apps.apple.com/cn/app/id6810910437",
+          "isNew": true
+        },
+        {
+          "name": "PixShow",
+          "image": "icons/pixshow.png",
+          "icon": "🖼️",
+          "gradient": "linear-gradient(135deg, #ff9f0a 0%, #ff375f 100%)",
+          "desc": "把照片变成艺术：一键将照片变成卡片、油画、素描、漫画、复古胶片等艺术效果，自动提取主色调，导出高清图片",
+          "url": "https://apps.apple.com/cn/app/id6771634234",
+          "isNew": false
+        }
+      ]
+    },
+    {
+      "title": "Mac 应用 · Mac Apps",
+      "platform": "mac",
+      "apps": [
+        {
+          "name": "WellDone",
+          "image": "icons/welldone.png",
+          "icon": "✅",
+          "gradient": "linear-gradient(135deg, #30d158 0%, #0a84ff 100%)",
+          "desc": "始终置顶的轻量待办提醒：悬浮桌面随时可见，到期循环提醒不遗漏，本地存储安全私密。",
+          "url": "https://apps.apple.com/cn/app/id6776590766",
+          "isNew": false
+        }
+      ]
+    }
+  ]
+}

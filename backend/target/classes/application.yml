@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: app-api
+
+# 跨域配置：默认允许所有来源；生产环境建议改成前端域名，例如：
+# https://showpic.edgeone.app,https://xxx.onrender.com
+app:
+  cors:
+    allowed-origins: "*"
+
+logging:
+  level:
+    root: INFO

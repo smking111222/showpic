@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1c1e" media="(prefers-color-scheme: dark)">
+<title>点木成材 · 我的最爱</title>
+
+<!-- Apple Smart Banner：引导已安装 App 的用户直接打开 -->
+<meta name="apple-itunes-app" content="app-id=6810910437">
+<meta name="apple-itunes-app" content="app-id=6771634234">
+<meta name="apple-itunes-app" content="app-id=6776590766">
+
+<!-- Favicon：使用🌳 emoji -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
+
+<script src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #aeaeb2;
+    --divider: rgba(0, 0, 0, 0.06);
+    --accent: #4f8ef7;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --card: #2c2c2e;
+      --text: #f2f2f7;
+      --text-secondary: #98989f;
+      --text-tertiary: #636366;
+      --divider: rgba(255, 255, 255, 0.08);
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  #app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: calc(env(safe-area-inset-top) + 28px) 20px calc(env(safe-area-inset-bottom) + 24px);
+  }
+
+  /* 顶部头像区 */
+  .hero { text-align: center; padding: 8px 0 24px; }
+  .avatar {
+    width: 76px; height: 76px;
+    margin: 0 auto 14px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #4f8ef7 0%, #8e54e9 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px;
+    box-shadow: var(--shadow);
+  }
+  .hero h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+  .hero .slogan { margin-top: 6px; font-size: 13px; color: var(--text-secondary); }
+
+  /* 分区标题 */
+  .section-title {
+    font-size: 13px; font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 4px 10px;
+  }
+
+  /* App 卡片 */
+  .app-card {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease;
+    text-decoration: none;      /* 去掉 <a> 默认下划线 */
+    color: inherit;             /* 文字颜色继承主题色，不用链接默认色 */
+    -webkit-tap-highlight-color: transparent;  /* 去掉移动端点击高亮 */
+  }
+  .app-card:active { transform: scale(0.98); }
+  .app-icon {
+    flex-shrink: 0;
+    width: 56px; height: 56px;
+    border-radius: 13px;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .app-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .app-info { flex: 1; min-width: 0; }
+  .app-name { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .app-name .badge {
+    font-size: 10px; font-weight: 600;
+    color: #ff9f0a;
+    background: rgba(255, 159, 10, 0.12);
+    padding: 1px 6px; border-radius: 4px;
+  }
+  .app-desc {
+    margin-top: 3px;
+    font-size: 13px; color: var(--text-secondary);
+    line-height: 1.45;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    line-clamp: 3; overflow: hidden;
+  }
+  .app-link {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    text-decoration: none;
+    font-size: 12px; font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: 7px 12px;
+    border-radius: 999px;
+  }
+  .app-link::before { content: ""; width: 12px; height: 14px; background: #fff;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath d='M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath d='M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+
+  /* 底部 */
+  .footer {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 8px;
+    border-top: 1px solid var(--divider);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    line-height: 2;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* 加载中提示 */
+  .loading {
+    text-align: center;
+    padding: 120px 0;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div id="app" v-scope v-effect="init()">
+  <!-- 加载中提示 -->
+  <div v-if="loading" class="loading">加载中…</div>
+
+  <div v-if="!loading">
+  <!-- 顶部头像与签名 -->
+  <header class="hero">
+    <div class="avatar" role="img" aria-label="开发者">{{ developer.avatar }}</div>
+    <h1>{{ developer.name }}</h1>
+    <p class="slogan">{{ developer.slogan }}</p>
+  </header>
+
+  <!-- App 列表：展平为单层循环（petite-vue 不支持 <template v-for>） -->
+  <div v-for="item in flatList" :key="item.key" style="display:contents">
+    <div v-if="item.type === 'title'" class="section-title">{{ item.value }}</div>
+    <a v-if="item.type === 'app'"
+       class="app-card"
+       :href="item.value.url"
+       :aria-label="'在 App Store 查看 ' + item.value.name"
+       target="_blank" rel="noopener">
+      <div class="app-icon" :style="item.value.iconFailed || !item.value.image ? { background: item.value.gradient } : {}">
+        <img v-if="item.value.image && !item.value.iconFailed" :src="item.value.image" :alt="item.value.name" @error="item.value.iconFailed = true">
+        <span v-else role="img" :aria-label="item.value.name + ' 图标">{{ item.value.icon }}</span>
+      </div>
+      <div class="app-info">
+        <div class="app-name">
+          {{ item.value.name }}
+          <span v-if="item.value.isNew" class="badge">NEW</span>
+        </div>
+        <div class="app-desc">{{ item.value.desc }}</div>
+      </div>
+      <span class="app-link">{{ item.value.platform === 'mac' ? 'Mac App Store' : 'App Store' }}</span>
+    </a>
+  </div>
+
+  <!-- 底部信息 -->
+  <footer class="footer">
+    <div><a :href="'mailto:' + developer.email">{{ developer.email }}</a></div>
+    <div>© {{ year }} {{ developer.name }} · 保留所有权利</div>
+  </footer>
+  </div>
+</div>
+
+<script>
+// App Store 链接（按 App ID 生成）
+const appStoreURL = (id) => `https://apps.apple.com/cn/app/id${id}`;
+
+// ====== 后端接口地址 ======
+// 本地联调时留空（同源）；部署后改为后端地址，例如：
+// const API_BASE = 'https://showpic-api.onrender.com';
+const API_BASE = '';
+
+// ====== 兑底默认数据：接口不可用时保证页面仍可展示 ======
+const DEFAULT_DATA = {
+  developer: {
+    avatar: "🌱",
+    name: "点木成材",
+    slogan: "独立开发者 · 用 App 记录成长，让自律变简单",
+    email: "bestheqin@gmail.com",
+  },
+  sections: [
+    {
+      title: "iOS 应用 · iOS Apps",
+      platform: "ios",
+      apps: [
+        {
+          name: "🍀BeBetter 自律打卡",
+          image: "icons/bebetter.png",
+          icon: "⏱️",
+          gradient: "linear-gradient(135deg, #4f8ef7 0%, #8e54e9 100%)",
+          desc: "轻量自律打卡工具：设定目标与期限，每日提醒打卡，用连续的坚持看见更好的自己。",
+          url: appStoreURL(6810910437),
+          isNew: true,
+        },
+        {
+          name: "🏡PixShow",
+          image: "icons/pixshow.png",
+          icon: "🖼️",
+          gradient: "linear-gradient(135deg, #ff9f0a 0%, #ff375f 100%)",
+          desc: "把照片变成艺术：一键将照片变成卡片、油画、素描、漫画、复古胶片等艺术效果，自动提取主色调，导出高清图片",
+          url: appStoreURL(6771634234),
+          isNew: false,
+        },
+      ],
+    },
+    {
+      title: "Mac 应用 · Mac Apps",
+      platform: "mac",
+      apps: [
+        {
+          name: "☀️WellDone",
+          image: "icons/welldone.png",
+          icon: "✅",
+          gradient: "linear-gradient(135deg, #30d158 0%, #0a84ff 100%)",
+          desc: "始终置顶的轻量待办提醒：悬浮桌面随时可见，到期循环提醒不遗漏，本地存储安全私密。",
+          url: appStoreURL(6776590766),
+          isNew: false,
+        },
+      ],
+    },
+  ],
+};
+
+const app = PetiteVue.createApp({
+  loading: true,        // 是否正在加载接口数据
+  loadFailed: false,    // 接口失败、使用了兑底数据
+
+  developer: { ...DEFAULT_DATA.developer },
+  sections: [],
+
+  year: new Date().getFullYear(),
+
+  // 从后端接口拉取页面数据；失败时回退到内置默认数据
+  async init() {
+    try {
+      const res = await fetch(API_BASE + '/api/apps', {
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      if (json.code !== 0 || !json.data) throw new Error(json.message || '接口返回异常');
+      this.developer = json.data.developer;
+      this.sections = json.data.sections;
+    } catch (err) {
+      console.warn('[app] 接口请求失败，使用内置兑底数据：', err);
+      this.loadFailed = true;
+      this.developer = { ...DEFAULT_DATA.developer };
+      this.sections = DEFAULT_DATA.sections;
+    } finally {
+      this.loading = false;
+    }
+  },
+
+  // 展平列表：petite-vue 不支持 <template v-for>，需将 sections 展平为单层数组
+  // 每条记录为 { type: 'title', value: 标题文本, key } 或 { type: 'app', value: app数据(含platform), key }
+  get flatList() {
+    const list = [];
+    for (const section of this.sections) {
+      list.push({ type: 'title', value: section.title, key: 'title-' + section.platform });
+      for (const app of section.apps) {
+        list.push({ type: 'app', value: { ...app, platform: section.platform }, key: 'app-' + app.name });
+      }
+    }
+    return list;
+  },
+});
+app.mount('#app');
+</script>
+</body>
+</html>
