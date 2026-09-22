@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: app-api
+  web:
+    resources:
+      # 本地开发：额外把仓库里的 apprelatedh5 目录作为静态资源托管，
+      # 这样 http://localhost:8080/ 直接预览真正的前端页面（单一数据源）。
+      # 云端（FC 容器）里该路径不存在，自动忽略，不影响 /api 接口。
+      static-locations: classpath:/static/, file:../apprelatedh5/
 
 # 跨域配置：默认允许所有来源；生产环境建议改成前端域名，例如：
 # https://showpic.edgeone.app,https://xxx.onrender.com
