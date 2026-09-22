@@ -197,10 +197,16 @@
 // App Store 链接（按 App ID 生成）
 const appStoreURL = (id) => `https://apps.apple.com/cn/app/id${id}`;
 
-// ====== 后端接口地址 ======
-// 本地联调时留空（同源）；部署后改为后端地址，例如：
-// const API_BASE = 'https://showpic-api.onrender.com';
-const API_BASE = 'https://app-api-mckafsnitu.cn-beijing.fcapp.run';
+// ====== 后端接口地址（自动判断）======
+// 规则：
+//   - 页面由后端自己托管时（localhost 调试 / fcapp.run），接口走同源，不需要 CORS
+//   - 页面托管在 GitHub Pages 等静态平台时，接口走阿里云 FC
+// 好处：本地调试自动测本地数据，线上自动连 FC，无需手动改地址
+const LOCAL_BACKEND_HOSTS = ['localhost', '127.0.0.1'];
+const isServedByBackend =
+    LOCAL_BACKEND_HOSTS.includes(location.hostname) ||
+    location.hostname.endsWith('.fcapp.run');
+const API_BASE = isServedByBackend ? '' : 'https://app-api-mckafsnitu.cn-beijing.fcapp.run';
 
 // ====== 兑底默认数据：接口不可用时保证页面仍可展示 ======
 const DEFAULT_DATA = {
